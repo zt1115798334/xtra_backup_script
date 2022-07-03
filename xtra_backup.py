@@ -11,13 +11,21 @@ logging.basicConfig(level=logging.INFO
                     # handlers={logging.FileHandler(filename='backup_log_info.log', mode='a', encoding='utf-8')}
                     )
 
-host = "mysql-server"
-port = "3306"
-user = "root"
-password = "management"
-backup_dir = "/data"
+# host = "mysql-server"
+# port = "3306"
+# user = "root"
+# password = "management"
+# backup_dir = "/data"
+# backup_file_list = os.path.join(backup_dir, "backup_file_list.log")
+# backup_keep_days = 15
+
+host = os.getenv("px_host")
+port = os.getenv("px_port")
+user = os.getenv("px_user")
+password = os.getenv("px_password")
+backup_dir = os.getenv("px_dir")
 backup_file_list = os.path.join(backup_dir, "backup_file_list.log")
-backup_keep_days = 15
+backup_keep_days = os.getenv("px_keep_days")
 
 
 # 获取备份类型，周六进行完备，平时增量备份，如果没有全备，执行完整备份
@@ -118,6 +126,8 @@ def incr_backup(backupFileName):
 
 
 if __name__ == '__main__':
+    print("host:{0}, port:{1}, user:{2}, password:{3}, backup_dir:{4}, backup_keep_days:{5}"
+          .format(host, port, user, password, backup_dir, backup_keep_days))
     mysql_stat = get_mysql_service_status()
     backup_type = get_backup_type()
     print(backup_type)
