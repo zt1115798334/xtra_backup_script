@@ -25,7 +25,7 @@ user = os.getenv("px_user")
 password = os.getenv("px_password")
 backup_dir = os.getenv("px_dir")
 backup_file_list = os.path.join(backup_dir, "backup_file_list.log")
-backup_keep_days = os.getenv("px_keep_days")
+backup_keep_days = 15
 
 
 # 获取备份类型，周六进行完备，平时增量备份，如果没有全备，执行完整备份
