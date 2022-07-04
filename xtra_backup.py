@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import configparser
 import datetime
 import logging
 import os
@@ -11,21 +12,23 @@ logging.basicConfig(level=logging.INFO
                     # handlers={logging.FileHandler(filename='backup_log_info.log', mode='a', encoding='utf-8')}
                     )
 
-host = "mysql-server"
-port = "3306"
-user = "root"
-password = "management"
+# host = "mysql-server"
+# port = "3306"
+# user = "root"
+# password = "management"
+# backup_dir = "/data"
+# backup_file_list = os.path.join(backup_dir, "backup_file_list.log")
+# backup_keep_days = 15
+
+cf = configparser.ConfigParser()  # 实例化
+cf.read('/xtra_backup_script/config/config.ini', encoding='utf-8')
+host = cf.get("default", "px_host")
+port = cf.get("default", "px_port")
+user = cf.get("default", "px_user")
+password = cf.get("default", "px_password")
 backup_dir = "/data"
 backup_file_list = os.path.join(backup_dir, "backup_file_list.log")
 backup_keep_days = 15
-
-# host = os.getenv("px_host")
-# port = os.getenv("px_port")
-# user = os.getenv("px_user")
-# password = os.getenv("px_password")
-# backup_dir = os.getenv("px_dir")
-# backup_file_list = os.path.join(backup_dir, "backup_file_list.log")
-# backup_keep_days = 15
 
 
 # 获取备份类型，周六进行完备，平时增量备份，如果没有全备，执行完整备份
